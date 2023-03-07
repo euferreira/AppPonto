@@ -1,4 +1,5 @@
 import 'package:app_ponto/src/modules/home/application/home.controller.dart';
+import 'package:app_ponto/src/shared/constants.dart';
 import 'package:app_ponto/src/shared/utils/datetime.dart';
 import 'package:app_ponto/src/shared/widgets/ponto_bottomsheet/main.dart';
 import 'package:flutter/material.dart';
@@ -18,21 +19,13 @@ class EditRegistroBottomsheet extends GetView<HomeController> with PontoBottomSh
     controller.isFolga.value = controller.ponto.value?.isFolga ?? false;
 
     if (type == PontoType.entrada1) {
-      controller.timeController.text = controller.ponto.value!.entrada1?.format(
-        formato: 'HH:mm',
-      ) ?? '';
+      controller.timeController.text = controller.ponto.value!.entrada1?.format(formato: 'HH:mm') ?? '';
     } else if (type == PontoType.saida1) {
-      controller.timeController.text = controller.ponto.value!.saida1?.format(
-        formato: 'HH:mm',
-      ) ?? '';
+      controller.timeController.text = controller.ponto.value!.saida1?.format(formato: 'HH:mm') ?? '';
     } else if (type == PontoType.entrada2) {
-      controller.timeController.text = controller.ponto.value!.entrada2?.format(
-        formato: 'HH:mm',
-      ) ?? '';
+      controller.timeController.text = controller.ponto.value!.entrada2?.format(formato: 'HH:mm') ?? '';
     } else if (type == PontoType.saida2) {
-      controller.timeController.text = controller.ponto.value!.saida2?.format(
-        formato: 'HH:mm',
-      ) ?? '';
+      controller.timeController.text = controller.ponto.value!.saida2?.format(formato: 'HH:mm') ?? '';
     } else {
       controller.timeController.clear();
     }
@@ -74,14 +67,24 @@ class EditRegistroBottomsheet extends GetView<HomeController> with PontoBottomSh
                     value.minute,
                   );
 
+                  controller.ponto.value!.pontoType = type;
+
                   if (type == PontoType.entrada1) {
                     controller.ponto.value!.entrada1 = date;
-                  } else if (type == PontoType.saida1) {
+                  }
+                  else if (type == PontoType.saida1) {
                     controller.ponto.value!.saida1 = date;
-                  } else if (type == PontoType.entrada2) {
+                  }
+                  else if (type == PontoType.entrada2) {
                     controller.ponto.value!.entrada2 = date;
-                  } else if (type == PontoType.saida2) {
+                  }
+                  else if (type == PontoType.saida2) {
                     controller.ponto.value!.saida2 = date;
+                  }
+
+                  bool validate = controller.ponto.value!.validateByType;
+                  if (!validate) {
+                    Alerts.showError(message: 'Horário inválido!');
                   }
 
                   controller.ponto.refresh();

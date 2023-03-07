@@ -89,6 +89,13 @@ class HomeController extends GetxController {
 
   Future<void> savePonto() async {
     loadingList.value = true;
+    bool validate = this.ponto.value!.validateByType;
+    if (!validate) {
+      loadingList.value = false;
+      Alerts.showError(message: 'Horário inválido!');
+      return;
+    }
+
     final ponto = await pontoUsecase.savePonto(PontoParam(
       data: dataSelecionada.value,
       isLogged: isLogged.isTrue,

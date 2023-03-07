@@ -56,38 +56,32 @@ class HomePage extends GetView<HomeController> {
                       onDelete: (_) => controller.deletePonto(PontoType.entrada1),
                       onEdit: (_) => controller.onEdit(PontoType.entrada1),
                       title: 'Entrada 1',
-                      hora: controller.ponto.value?.isFolga == true || controller.ponto.value?.isFeriado == true
-                          ? 'Folga'
-                          : controller.ponto.value?.entrada1?.format(formato: 'HH:mm') ?? '--:--',
+                      hora: makeHoraTitle(controller.ponto.value?.entrada1),
                     ),
                     PontoSlidable(
                       onDelete: (_) => controller.deletePonto(PontoType.saida1),
                       onEdit: (_) => controller.onEdit(PontoType.saida1),
                       title: 'Saída 1',
-                      hora: controller.ponto.value?.isFolga == true || controller.ponto.value?.isFeriado == true
-                          ? 'Folga'
-                          : controller.ponto.value?.saida1?.format(formato: 'HH:mm') ?? '--:--',
+                      hora: makeHoraTitle(controller.ponto.value?.saida1),
                     ),
                     PontoSlidable(
                       onDelete: (_) => controller.deletePonto(PontoType.entrada2),
                       onEdit: (_) => controller.onEdit(PontoType.entrada2),
                       title: 'Entrada 2',
-                      hora: controller.ponto.value?.isFolga == true || controller.ponto.value?.isFeriado == true
-                          ? 'Folga'
-                          : controller.ponto.value?.entrada2?.format(formato: 'HH:mm') ?? '--:--',
+                      hora: makeHoraTitle(controller.ponto.value?.entrada2),
                     ),
                     PontoSlidable(
                       onDelete: (_) => controller.deletePonto(PontoType.saida2),
                       onEdit: (_) => controller.onEdit(PontoType.saida2),
                       title: 'Saída 2',
-                      hora: controller.ponto.value?.isFolga == true || controller.ponto.value?.isFeriado == true
-                          ? 'Folga'
-                          : controller.ponto.value?.saida2?.format(formato: 'HH:mm') ?? '--:--',
+                      hora: makeHoraTitle(controller.ponto.value?.saida2),
                     ),
-                    const SizedBox(height: 12),
-                    CardSugestoes(
-                      ponto: controller.ponto.value!,
-                    ),
+                    if (controller.ponto.value?.sugestaoInicioAlmoco != null) ...[
+                      const SizedBox(height: 12),
+                      CardSugestoes(
+                        ponto: controller.ponto.value!,
+                      ),
+                    ],
                   ],
                 );
               }),
@@ -96,5 +90,11 @@ class HomePage extends GetView<HomeController> {
         ],
       ),
     );
+  }
+
+  String makeHoraTitle(DateTime? value) {
+    return controller.ponto.value?.isFolga == true || controller.ponto.value?.isFeriado == true
+        ? 'Folga'
+        : value?.format(formato: 'HH:mm') ?? '--:--';
   }
 }

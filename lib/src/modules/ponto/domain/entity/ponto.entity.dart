@@ -1,3 +1,5 @@
+import 'package:app_ponto/src/modules/ponto/domain/entity/ponto.enum.dart';
+
 class PontoEntity {
   DateTime? entrada1;
   DateTime? saida1;
@@ -10,6 +12,7 @@ class PontoEntity {
   bool? isFeriado;
   bool? isFolga;
   Duration? horasTrabalhadas;
+  PontoType? pontoType;
 
   PontoEntity({
     this.entrada1,
@@ -23,6 +26,7 @@ class PontoEntity {
     this.isFeriado,
     this.isFolga,
     this.horasTrabalhadas,
+    this.pontoType,
   });
 
   PontoEntity makeSuggestions() {
@@ -47,6 +51,33 @@ class PontoEntity {
     }
 
     return this;
+  }
+
+  bool get validateByType {
+    if (pontoType == PontoType.entrada1) {
+      return entrada1 != null;
+    }
+    else if (pontoType == PontoType.saida1) {
+      if (entrada1 != null) {
+        return saida1 != null && saida1!.isAfter(entrada1!);
+      }
+      return false;
+    }
+    else if (pontoType == PontoType.entrada2) {
+      if (saida1 != null) {
+        return entrada2 != null && entrada2!.isAfter(saida1!);
+      }
+      return false;
+    }
+    else if (pontoType == PontoType.saida2) {
+      if (entrada2 != null) {
+        return saida2 != null && saida2!.isAfter(entrada2!);
+      }
+      return false;
+    }
+    else {
+      return false;
+    }
   }
 }
 
