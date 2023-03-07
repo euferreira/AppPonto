@@ -1,3 +1,4 @@
+import 'package:app_ponto/src/modules/home/application/widgets/card-sugestoes.widget.dart';
 import 'package:app_ponto/src/shared/utils/datetime.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -55,25 +56,37 @@ class HomePage extends GetView<HomeController> {
                       onDelete: (_) => controller.deletePonto(PontoType.entrada1),
                       onEdit: (_) => controller.onEdit(PontoType.entrada1),
                       title: 'Entrada 1',
-                      hora: controller.ponto.value?.entrada1?.format(formato: 'HH:mm') ?? '--:--',
+                      hora: controller.ponto.value?.isFolga == true || controller.ponto.value?.isFeriado == true
+                          ? 'Folga'
+                          : controller.ponto.value?.entrada1?.format(formato: 'HH:mm') ?? '--:--',
                     ),
                     PontoSlidable(
                       onDelete: (_) => controller.deletePonto(PontoType.saida1),
                       onEdit: (_) => controller.onEdit(PontoType.saida1),
                       title: 'Saída 1',
-                      hora: controller.ponto.value?.saida1?.format(formato: 'HH:mm') ?? '--:--',
+                      hora: controller.ponto.value?.isFolga == true || controller.ponto.value?.isFeriado == true
+                          ? 'Folga'
+                          : controller.ponto.value?.saida1?.format(formato: 'HH:mm') ?? '--:--',
                     ),
                     PontoSlidable(
                       onDelete: (_) => controller.deletePonto(PontoType.entrada2),
                       onEdit: (_) => controller.onEdit(PontoType.entrada2),
                       title: 'Entrada 2',
-                      hora: controller.ponto.value?.entrada1?.format(formato: 'HH:mm') ?? '--:--',
+                      hora: controller.ponto.value?.isFolga == true || controller.ponto.value?.isFeriado == true
+                          ? 'Folga'
+                          : controller.ponto.value?.entrada2?.format(formato: 'HH:mm') ?? '--:--',
                     ),
                     PontoSlidable(
                       onDelete: (_) => controller.deletePonto(PontoType.saida2),
                       onEdit: (_) => controller.onEdit(PontoType.saida2),
                       title: 'Saída 2',
-                      hora: controller.ponto.value?.saida2?.format(formato: 'HH:mm') ?? '--:--',
+                      hora: controller.ponto.value?.isFolga == true || controller.ponto.value?.isFeriado == true
+                          ? 'Folga'
+                          : controller.ponto.value?.saida2?.format(formato: 'HH:mm') ?? '--:--',
+                    ),
+                    const SizedBox(height: 12),
+                    CardSugestoes(
+                      ponto: controller.ponto.value!,
                     ),
                   ],
                 );

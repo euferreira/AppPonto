@@ -3,4 +3,6 @@ import 'package:dartz/dartz.dart';
 
 abstract class IPontoUsecase {
   Future<Either<Fail, PontoEntity>> getPonto(PontoParam params);
+
+  Future<Either<Fail, PontoEntity>> savePonto(PontoParam params);
 }

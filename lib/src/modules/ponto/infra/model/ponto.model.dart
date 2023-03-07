@@ -11,6 +11,8 @@ class PontoModel extends PontoEntity {
     super.sugestaoFimAlmoco,
     super.sugestaoInicioJornada,
     super.sugestaoFimJornada,
+    super.isFeriado,
+    super.isFolga,
   });
 
   factory PontoModel.fromHive(PontoHive hive) {
@@ -23,6 +25,23 @@ class PontoModel extends PontoEntity {
       sugestaoFimAlmoco: hive.sugestaoFimAlmoco,
       sugestaoInicioJornada: hive.sugestaoInicioJornada,
       sugestaoFimJornada: hive.sugestaoFimJornada,
+      isFeriado: hive.isFeriado,
+      isFolga: hive.isFolga,
+    );
+  }
+
+  static PontoHive toHive(PontoParam param) {
+    return PontoHive(
+      entrada1: param.ponto!.entrada1,
+      saida1: param.ponto!.saida1,
+      entrada2: param.ponto!.entrada2,
+      saida2: param.ponto!.saida2,
+      sugestaoInicioAlmoco: param.ponto!.sugestaoInicioAlmoco,
+      sugestaoFimAlmoco: param.ponto!.sugestaoFimAlmoco,
+      sugestaoInicioJornada: param.ponto!.sugestaoInicioJornada,
+      sugestaoFimJornada: param.ponto!.sugestaoFimJornada,
+      isFeriado: param.ponto!.isFeriado,
+      isFolga: param.ponto!.isFolga,
     );
   }
 }

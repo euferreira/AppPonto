@@ -7,4 +7,10 @@ class PontoDioDatasource implements IPontoDioDatasource {
     // TODO: implement getPonto
     throw UnimplementedError();
   }
+
+  @override
+  Future<PontoEntity?> savePonto(PontoParam ponto) {
+    // TODO: implement savePonto
+    throw UnimplementedError();
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:app_ponto/src/shared/constants.dart';
 import 'package:app_ponto/src/shared/utils/datetime.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,10 @@ class HomeController extends GetxController {
   RxString headerText = ''.obs;
   RxBool loadingList = false.obs;
   RxBool isLogged = false.obs;
+  RxBool isFeriado = false.obs;
+  RxBool isFolga = false.obs;
+
+  TextEditingController timeController = TextEditingController();
 
   @override
   void onInit() async {
@@ -33,9 +38,7 @@ class HomeController extends GetxController {
   Future<void> initData() async {
     Future<void> initHeader() async {
       final token = await tokenUsecase.getToken();
-      token.fold((l) {
-        headerText.value = 'Marque seu ponto!';
-      }, (r) {
+      token.fold((l) => headerText.value = 'Marque seu ponto!', (r) {
         headerText.value = 'Olá, ${r.user}!';
         isLogged.value = true;
       });
@@ -46,9 +49,7 @@ class HomeController extends GetxController {
   }
 
   void onEdit(PontoType type) {
-    EditRegistroBottomsheet(
-      type: type,
-    ).show().then((value) {
+    EditRegistroBottomsheet(type: type).show().then((value) {
       if (value != null) {}
     });
   }
@@ -83,6 +84,22 @@ class HomeController extends GetxController {
       isLogged: isLogged.isTrue,
     ));
     ponto.fold((l) => this.ponto.value = PontoEntity(), (r) => this.ponto.value = r);
+    loadingList.value = false;
+  }
+
+  Future<void> savePonto() async {
+    loadingList.value = true;
+    final ponto = await pontoUsecase.savePonto(PontoParam(
+      data: dataSelecionada.value,
+      isLogged: isLogged.isTrue,
+      ponto: this.ponto.value,
+    ));
+    ponto.fold((l) => this.ponto.value = PontoEntity(), (r) async {
+      this.ponto.value = r;
+      Get.back();
+      Alerts.showSuccess(message: 'Ponto salvo com sucesso!');
+      this.ponto.value = this.ponto.value?.makeSuggestions();
+    });
     loadingList.value = false;
   }
 }

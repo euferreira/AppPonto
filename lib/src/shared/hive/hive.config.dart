@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:hive/hive.dart';
 
 import 'adapters/auth.hive.g.dart';
+import 'adapters/ponto.hive.g.dart';
 import 'model/auth.hive.dart';
+import 'model/ponto.hive.dart';
 import 'secure_storage.dart';
 
 abstract class IHiveConfig {
@@ -22,6 +24,7 @@ class HiveConfig implements IHiveConfig {
   @override
   Future<void> adapter() async {
     Hive.registerAdapter(AuthHiveAdapter());
+    Hive.registerAdapter(PontoHiveAdapter());
   }
 
   @override
@@ -45,6 +48,7 @@ class HiveConfig implements IHiveConfig {
     await Hive.openBox<String>(HiveConsts.theme);
 
     await Hive.openBox<AuthHive>(HiveConsts.auth, encryptionCipher: cipher);
+    await Hive.openBox<PontoHive>(HiveConsts.ponto, encryptionCipher: cipher);
   }
 
   @override

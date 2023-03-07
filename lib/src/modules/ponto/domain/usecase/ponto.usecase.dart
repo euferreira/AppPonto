@@ -13,4 +13,9 @@ class PontoUsecase implements IPontoUsecase {
   Future<Either<Fail, PontoEntity>> getPonto(PontoParam params) async {
     return await repository.getPonto(params);
   }
+
+  @override
+  Future<Either<Fail, PontoEntity>> savePonto(PontoParam params) async {
+    return await repository.savePonto(params);
+  }
 }

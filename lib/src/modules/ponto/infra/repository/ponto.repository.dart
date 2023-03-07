@@ -32,4 +32,24 @@ class PontoRepository implements IPontoRepository {
       return Left(Fail(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Fail, PontoEntity>> savePonto(PontoParam params) async {
+    try {
+      if (params.isLogged) {
+        final result = await dioDatasource.savePonto(params);
+        if (result != null) {
+          return Right(result);
+        }
+        return Left(Fail('Não foi possível salvar o ponto'));
+      }
+      final result = await hiveDatasource.savePonto(params);
+      if (result != null) {
+        return Right(result);
+      }
+      return Left(Fail('Não foi possível salvar o ponto'));
+    } catch (e) {
+      return Left(Fail(e.toString()));
+    }
+  }
 }
