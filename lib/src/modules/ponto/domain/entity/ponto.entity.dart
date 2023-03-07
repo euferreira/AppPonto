@@ -53,7 +53,11 @@ class PontoEntity {
     return this;
   }
 
-  bool get validateByType {
+  bool validateByType({bool isDelete = false}) {
+    if (isDelete) {
+      return true;
+    }
+
     if (pontoType == PontoType.entrada1) {
       return entrada1 != null;
     }

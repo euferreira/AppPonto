@@ -1,3 +1,4 @@
+import 'package:app_ponto/src/modules/home/application/component/delete.registro.bottomsheet.component.dart';
 import 'package:app_ponto/src/shared/constants.dart';
 import 'package:app_ponto/src/shared/utils/datetime.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,11 @@ class HomeController extends GetxController {
     });
   }
 
-  void deletePonto(PontoType? type) {}
+  void deletePonto(PontoType type) {
+    DeleteRegistroBottomsheet(type: type).show().then((value) {
+      if (value != null) {}
+    });
+  }
 
   void openCalendar(BuildContext context) {
     showDatePicker(
@@ -87,9 +92,9 @@ class HomeController extends GetxController {
     loadingList.value = false;
   }
 
-  Future<void> savePonto() async {
+  Future<void> savePonto({bool isDelete = false}) async {
     loadingList.value = true;
-    bool validate = this.ponto.value!.validateByType;
+    bool validate = this.ponto.value!.validateByType(isDelete: isDelete);
     if (!validate) {
       loadingList.value = false;
       Alerts.showError(message: 'Horário inválido!');
@@ -104,9 +109,31 @@ class HomeController extends GetxController {
     ponto.fold((l) => this.ponto.value = PontoEntity(), (r) async {
       this.ponto.value = r;
       Get.back();
-      Alerts.showSuccess(message: 'Ponto salvo com sucesso!');
+      Alerts.showSuccess(message: 'Ponto ${isDelete ? "excluido" : "salvo"} com sucesso!');
       this.ponto.value = this.ponto.value?.makeSuggestions();
     });
     loadingList.value = false;
+  }
+
+  Future<void> deleteRegistro(PontoType type) async {
+    switch (type) {
+      case PontoType.entrada1:
+        ponto.value?.entrada1 = null;
+        break;
+      case PontoType.saida1:
+        ponto.value?.saida1 = null;
+        break;
+      case PontoType.entrada2:
+        ponto.value?.entrada2 = null;
+        break;
+      case PontoType.saida2:
+        ponto.value?.saida2 = null;
+        break;
+      default:
+    }
+    ponto.value?.sugestaoInicioAlmoco = null;
+    ponto.value?.sugestaoFimAlmoco = null;
+    ponto.value?.sugestaoFimJornada = null;
+    await savePonto(isDelete: true);
   }
 }

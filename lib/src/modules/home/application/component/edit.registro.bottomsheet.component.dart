@@ -82,7 +82,7 @@ class EditRegistroBottomsheet extends GetView<HomeController> with PontoBottomSh
                     controller.ponto.value!.saida2 = date;
                   }
 
-                  bool validate = controller.ponto.value!.validateByType;
+                  bool validate = controller.ponto.value!.validateByType();
                   if (!validate) {
                     Alerts.showError(message: 'Horário inválido!');
                   }
