@@ -22,7 +22,7 @@ class HomeController extends GetxController {
   Rx<DateTime> dataSelecionada = DateTime.now().obs;
   Rxn<PontoEntity> ponto = Rxn<PontoEntity>();
 
-  RxString headerText = ''.obs;
+  RxString headerText = RxString('');
   RxBool loadingList = false.obs;
   RxBool isLogged = false.obs;
   RxBool isFeriado = false.obs;
@@ -33,10 +33,10 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await initData();
+    await _initData();
   }
 
-  Future<void> initData() async {
+  Future<void> _initData() async {
     Future<void> initHeader() async {
       final token = await tokenUsecase.getToken();
       token.fold((l) => headerText.value = 'Marque seu ponto!', (r) {

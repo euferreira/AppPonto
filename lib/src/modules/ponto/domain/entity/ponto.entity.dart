@@ -58,6 +58,10 @@ class PontoEntity {
       return true;
     }
 
+    if (isFeriado == true || isFolga == true) {
+      return true;
+    }
+
     if (pontoType == PontoType.entrada1) {
       return entrada1 != null;
     }
